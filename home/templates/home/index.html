@@ -23,6 +23,7 @@
       object-fit: cover;
       opacity: 0;
       transition: opacity 1s ease-in-out;
+      cursor: pointer;
     }
 
     .carousel img.active {
@@ -35,7 +36,7 @@
       top: 20px;
       right: 20px;
       display: flex;
-      gap: 1.5rem; /* even spacing */
+      gap: 1.5rem;
       background: rgba(249, 247, 244, 0.5); /* Ivory Mist, semi-transparent */
       padding: 0.5rem 1rem;
       border-radius: 8px;
@@ -97,58 +98,32 @@
   <script>
     const images = document.querySelectorAll('.carousel img');
     let current = 0;
-    let autoInterval = null;
-    let pauseTimeout = null;
+    let timer;
 
-    function crossfade() {
-      const prev = current;
-      current = (current + 1) % images.length;
-
-      images[current].style.opacity = 0;
-      images[current].classList.add('active');
-
-      let opacity = 0;
-      const interval = setInterval(() => {
-        opacity += 0.02;
-        images[current].style.opacity = opacity;
-        images[prev].style.opacity = 1 - opacity;
-        if(opacity >= 1){
-          images[prev].classList.remove('active');
-          clearInterval(interval);
-        }
-      }, 40);
+    function showImage(index) {
+      images.forEach((img, i) => img.classList.toggle('active', i === index));
+      current = index;
     }
 
-    function startRotation() {
-      if (!autoInterval) {
-        autoInterval = setInterval(crossfade, 10000);
-      }
+    function nextImage() {
+      showImage((current + 1) % images.length);
     }
 
-    function stopRotation() {
-      clearInterval(autoInterval);
-      autoInterval = null;
+    function resetTimer() {
+      clearInterval(timer);
+      timer = setInterval(nextImage, 10000);
     }
 
-    startRotation();
-
-    images.forEach((img, index) => {
+    images.forEach((img, i) => {
       img.addEventListener('click', () => {
-        stopRotation();
-        if (index !== current) {
-          images[current].classList.remove('active');
-          images[current].style.opacity = 0;
-          current = index;
-          images[current].classList.add('active');
-          images[current].style.opacity = 1;
-        }
-
-        clearTimeout(pauseTimeout);
-        pauseTimeout = setTimeout(() => {
-          startRotation();
-        }, 60000);
+        showImage(i);
+        clearInterval(timer); // stop rotation on click
+        setTimeout(resetTimer, 60000); // restart after 60s if no new click
       });
     });
+
+    // Start automatic rotation
+    timer = setInterval(nextImage, 10000);
   </script>
 
 </body>
