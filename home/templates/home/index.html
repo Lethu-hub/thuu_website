@@ -39,7 +39,7 @@
       background: rgba(249, 247, 244, 0.5); /* Ivory Mist, semi-transparent */
       padding: 0.5rem 1rem;
       border-radius: 8px;
-      backdrop-filter: blur(5px); /* subtle glass effect */
+      backdrop-filter: blur(5px);
     }
 
     .top-nav a {
@@ -97,15 +97,58 @@
   <script>
     const images = document.querySelectorAll('.carousel img');
     let current = 0;
+    let autoInterval = null;
+    let pauseTimeout = null;
 
-    function nextImage() {
-      images[current].classList.remove('active');
+    function crossfade() {
+      const prev = current;
       current = (current + 1) % images.length;
+
+      images[current].style.opacity = 0;
       images[current].classList.add('active');
+
+      let opacity = 0;
+      const interval = setInterval(() => {
+        opacity += 0.02;
+        images[current].style.opacity = opacity;
+        images[prev].style.opacity = 1 - opacity;
+        if(opacity >= 1){
+          images[prev].classList.remove('active');
+          clearInterval(interval);
+        }
+      }, 40);
     }
 
-    // Change image every 10 seconds
-    setInterval(nextImage, 10000);
+    function startRotation() {
+      if (!autoInterval) {
+        autoInterval = setInterval(crossfade, 10000);
+      }
+    }
+
+    function stopRotation() {
+      clearInterval(autoInterval);
+      autoInterval = null;
+    }
+
+    startRotation();
+
+    images.forEach((img, index) => {
+      img.addEventListener('click', () => {
+        stopRotation();
+        if (index !== current) {
+          images[current].classList.remove('active');
+          images[current].style.opacity = 0;
+          current = index;
+          images[current].classList.add('active');
+          images[current].style.opacity = 1;
+        }
+
+        clearTimeout(pauseTimeout);
+        pauseTimeout = setTimeout(() => {
+          startRotation();
+        }, 60000);
+      });
+    });
   </script>
 
 </body>
