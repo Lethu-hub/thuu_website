@@ -1,33 +1,209 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services | Olwethu Mahlathini</title>
-    <link rel="stylesheet" href="{% static 'services/css/style.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #7FB8D3;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navigation bar (same as home, centered) */
+    .top-nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 1.5rem;
+      background: rgba(249, 247, 244, 0.5);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+    }
+    .top-nav a {
+      color: #2C3E50;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    .top-nav a:hover { color: #A3C4DC; }
+
+    /* Carousel container */
+    .carousel-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      padding: 100px 0; /* leave space for nav */
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .carousel {
+      display: flex;
+      gap: 2rem;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-card {
+      flex: 0 0 250px;
+      cursor: pointer;
+      transition: transform 0.3s, opacity 0.3s;
+      text-align: center;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      background-color: #fff;
+    }
+
+    .carousel-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .carousel-card h3 {
+      margin: 0.5rem 0;
+      padding: 0 0.5rem;
+    }
+
+    .carousel-card p {
+      font-size: 0.9rem;
+      padding: 0 0.5rem 1rem 0.5rem;
+      color: #333;
+    }
+
+    /* Center card emphasis */
+    .carousel-card.active {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+
+    .carousel-card:not(.active) {
+      opacity: 0.6;
+    }
+
+    /* Navigation arrows */
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      color: #fff;
+      cursor: pointer;
+      user-select: none;
+      z-index: 100;
+      background: rgba(0,0,0,0.3);
+      padding: 0.2rem 0.5rem;
+      border-radius: 5px;
+    }
+    .arrow.left { left: 10px; }
+    .arrow.right { right: 10px; }
+  </style>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'data_analyst' %}">Data Analyst</a></li>
-            <li><a href="{% url 'creative' %}">Creative</a></li>
-            <li><a href="{% url 'services' %}">Services</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
-        </ul>
-    </nav>
 
-    <header>
-        <h1>Services Offered</h1>
-        <p>Web Development | Data Analytics | Dashboard Builder | Writing & Editorial Services</p>
-    </header>
+  <!-- Navigation -->
+  <nav class="top-nav">
+    <a href="/">Home</a>
+    <a href="/services">Services</a>
+    <a href="/contact">Contact</a>
+  </nav>
 
-    <main>
-        <p>Placeholder for service descriptions and links to contact (email/Facebook).</p>
-    </main>
+  <!-- Carousel -->
+  <div class="carousel-container">
+    <div class="arrow left" onclick="prevCard()">&#10094;</div>
+    <div class="carousel" id="carousel">
+      <!-- Service Cards -->
+      <div class="carousel-card active" onclick="goToService('micro-business-online-setup')">
+        <img src="{% static 'services/images/Micro Business Online Setup.png' %}" alt="Micro Business Online Setup">
+        <h3>Micro Business Online Setup</h3>
+        <p>Get your small business online with websites and e-commerce setup.</p>
+      </div>
 
-    <footer>
-        <p>&copy; 2025 Olwethu Mahlathini</p>
-    </footer>
+      <div class="carousel-card" onclick="goToService('branding-logo-design')">
+        <img src="{% static 'services/images/Branding & Logo Design.png' %}" alt="Branding & Logo Design">
+        <h3>Branding & Logo Design</h3>
+        <p>Design memorable logos and visual branding for your business.</p>
+      </div>
+
+      <div class="carousel-card" onclick="goToService('social-media-management')">
+        <img src="{% static 'services/images/Social Media Management.png' %}" alt="Social Media Management">
+        <h3>Social Media Management</h3>
+        <p>Grow your audience and sales on Facebook, Instagram, and WhatsApp.</p>
+      </div>
+
+      <div class="carousel-card" onclick="goToService('freelance-writer-editor')">
+        <img src="{% static 'services/images/Freelance Writer & Editor.png' %}" alt="Freelance Writer & Editor">
+        <h3>Freelance Writer & Editor</h3>
+        <p>Editing novels, writing speeches, and refining creative works.</p>
+      </div>
+
+      <div class="carousel-card" onclick="goToService('programming-data-analytics-tutoring')">
+        <img src="{% static 'services/images/Programming & Data Analytics Tutoring.png' %}" alt="Programming & Data Analytics Tutoring">
+        <h3>Programming & Data Analytics Tutoring</h3>
+        <p>Learn Python, R, SQL, and advanced data analytics hands-on.</p>
+      </div>
+
+      <div class="carousel-card" onclick="goToService('business-tech-it-support')">
+        <img src="{% static 'services/images/Business Tech & IT Support.png' %}" alt="Business Tech & IT Support">
+        <h3>Business Tech & IT Support</h3>
+        <p>Troubleshoot software, IT audits, and keep your systems running.</p>
+      </div>
+    </div>
+    <div class="arrow right" onclick="nextCard()">&#10095;</div>
+  </div>
+
+  <script>
+    const carousel = document.getElementById('carousel');
+    const cards = carousel.getElementsByClassName('carousel-card');
+    let currentIndex = 0;
+
+    function updateActiveCard() {
+      for(let i=0; i<cards.length; i++) {
+        cards[i].classList.toggle('active', i === currentIndex);
+      }
+    }
+
+    function nextCard() {
+      currentIndex = (currentIndex + 1) % cards.length;
+      updateActiveCard();
+      carousel.scrollTo({
+        left: cards[currentIndex].offsetLeft - carousel.offsetWidth/2 + cards[currentIndex].offsetWidth/2,
+        behavior: 'smooth'
+      });
+    }
+
+    function prevCard() {
+      currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+      updateActiveCard();
+      carousel.scrollTo({
+        left: cards[currentIndex].offsetLeft - carousel.offsetWidth/2 + cards[currentIndex].offsetWidth/2,
+        behavior: 'smooth'
+      });
+    }
+
+    function goToService(slug) {
+      window.location.href = `/services/${slug}/`;
+    }
+
+    window.onload = () => {
+      updateActiveCard();
+      carousel.scrollTo({
+        left: cards[currentIndex].offsetLeft - carousel.offsetWidth/2 + cards[currentIndex].offsetWidth/2,
+        behavior: 'smooth'
+      });
+    };
+  </script>
+
 </body>
 </html>
