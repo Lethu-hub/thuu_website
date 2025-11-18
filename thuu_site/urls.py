@@ -24,4 +24,3 @@ urlpatterns = [
     path("services/", include("services.urls")),  # Services page & detail pages
     path("contact/", include("contact.urls")),    # Contact page
 ]
-
