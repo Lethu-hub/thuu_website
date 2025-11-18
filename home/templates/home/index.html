@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +30,7 @@
 
     .carousel img.active {
       opacity: 1;
-      transform: scale(1.05); /* subtle zoom */
+      transform: scale(1.05);
     }
 
     /* Fixed Top navigation banner */
@@ -83,9 +84,9 @@
 <body>
 
   <div class="carousel">
-    <img src="back1.png" class="active" alt="Carousel Image 1">
-    <img src="back2.png" alt="Carousel Image 2">
-    <img src="back3.png" alt="Carousel Image 3">
+    <img src="{% static 'home/images/back1.png' %}" class="active" alt="Carousel Image 1">
+    <img src="{% static 'home/images/back2.png' %}" alt="Carousel Image 2">
+    <img src="{% static 'home/images/back3.png' %}" alt="Carousel Image 3">
 
     <!-- Top Navigation -->
     <nav class="top-nav">
@@ -121,12 +122,11 @@
     images.forEach((img, i) => {
       img.addEventListener('click', () => {
         showImage(i);
-        clearInterval(timer); // stop rotation on click
-        setTimeout(resetTimer, 60000); // restart after 60s if no new click
+        clearInterval(timer);
+        setTimeout(resetTimer, 60000);
       });
     });
 
-    // Start automatic rotation
     timer = setInterval(nextImage, 10000);
   </script>
 
