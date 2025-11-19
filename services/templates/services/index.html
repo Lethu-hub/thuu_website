@@ -2,90 +2,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Services</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #7FB8D3;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services</title>
 
-    .top-nav {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 1.5rem;
-      background: rgba(249, 247, 244, 0.5);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      backdrop-filter: blur(5px);
-      z-index: 1000;
-    }
-    .top-nav a { color: #2C3E50; text-decoration: none; font-weight: bold; }
-    .top-nav a:hover { color: #A3C4DC; }
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #7FB8D3;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
 
-    .carousel-wrapper {
-      position: relative;
-      width: 100%;
-      height: 80vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      padding-top: 100px;
-      box-sizing: border-box;
-    }
+  .top-nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1.5rem;
+    background: rgba(249, 247, 244, 0.5);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+  }
+  .top-nav a {
+    color: #2C3E50;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .top-nav a:hover { color: #A3C4DC; }
 
-    .carousel {
-      display: flex;
-      gap: 2rem;
-      transition: transform 0.5s ease;
-      will-change: transform;
-    }
+  /* WRAPPER */
+  .carousel-wrapper {
+    width: 100%;
+    height: 430px;
+    margin-top: 140px;
+    overflow: hidden;
+    position: relative;
+  }
 
-    .carousel-card {
-      flex: 0 0 250px;
-      cursor: pointer;
-      text-align: center;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      background-color: #fff;
-      transition: transform 0.3s, opacity 0.3s;
-      opacity: 0.5;
-    }
+  /* CAROUSEL TRACK (VERY IMPORTANT FOR LOOPING) */
+  .carousel-track {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    will-change: transform;
+  }
 
-    .carousel-card.active {
-      transform: scale(1.2);
-      opacity: 1;
-    }
+  /* CARD */
+  .carousel-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    flex-shrink: 0;
+    width: 280px;
+    height: 360px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
 
-    .carousel-card img { width: 100%; height: 180px; object-fit: cover; }
-    .carousel-card h3 { margin: 0.5rem 0; padding: 0 0.5rem; }
-    .carousel-card p { font-size: 0.9rem; padding: 0 0.5rem 1rem; color: #333; }
+  .carousel-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    pointer-events: none; /* ✨ Prevent image click interception */
+  }
 
-    .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 2rem;
-      color: #fff;
-      cursor: pointer;
-      user-select: none;
-      z-index: 100;
-      background: rgba(0,0,0,0.3);
-      padding: 0.2rem 0.5rem;
-      border-radius: 5px;
-    }
-    .arrow.left { left: 10px; }
-    .arrow.right { right: 10px; }
-  </style>
+  .carousel-card:hover {
+    transform: scale(1.05);
+  }
+
+  /* CENTER CARD SCALING – optional */
+  .carousel-card.center {
+    transform: scale(1.1);
+  }
+
+  /* BUTTONS */
+  .nav-btn {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.8);
+    border: none;
+    padding: 14px 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 22px;
+    z-index: 20;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  .nav-btn:hover {
+    background: white;
+  }
+  #prevBtn { left: 20px; }
+  #nextBtn { right: 20px; }
+
+</style>
 </head>
 <body>
 
@@ -95,76 +114,65 @@
   <a href="/contact">Contact</a>
 </nav>
 
+<!-- ⬇️ SEAMLESS CAROUSEL -->
 <div class="carousel-wrapper">
-  <div class="arrow left" onclick="prevCard()">&#10094;</div>
-  <div class="carousel" id="carousel">
-    {% for service in services %}
-    <div class="carousel-card {% if forloop.first %}active{% endif %}" onclick="goToService('{{ service.slug }}')">
-      <img src="{% static 'services/images/'|add:service.image %}" alt="{{ service.title }}">
-      <h3>{{ service.title }}</h3>
-      <p>{{ service.description }}</p>
-    </div>
-    {% endfor %}
+  <button id="prevBtn" class="nav-btn">&#10094;</button>
+  <button id="nextBtn" class="nav-btn">&#10095;</button>
+
+  <div id="carouselTrack" class="carousel-track">
+
+      {% for service in services %}
+      <a href="{% url 'services:detail' service.slug %}" class="carousel-card">
+        <img src="{% static 'services/images/'|add:service.image %}" alt="{{ service.title }}">
+        <div style="padding: 10px;">
+          <h3>{{ service.title }}</h3>
+        </div>
+      </a>
+      {% endfor %}
+
+      <!-- CLONE 6 FOR SEAMLESS LOOP -->
+      {% for service in services %}
+      <a href="{% url 'services:detail' service.slug %}" class="carousel-card">
+        <img src="{% static 'services/images/'|add:service.image %}" alt="{{ service.title }}">
+        <div style="padding: 10px;">
+          <h3>{{ service.title }}</h3>
+        </div>
+      </a>
+      {% endfor %}
+
   </div>
-  <div class="arrow right" onclick="nextCard()">&#10095;</div>
 </div>
 
 <script>
-const carousel = document.getElementById('carousel');
-let cards = Array.from(carousel.children);
-let currentIndex = 0;
+  const track = document.getElementById("carouselTrack");
+  const cards = document.querySelectorAll(".carousel-card");
 
-// Clone first and last for infinite loop
-const firstClone = cards[0].cloneNode(true);
-const lastClone = cards[cards.length - 1].cloneNode(true);
-carousel.appendChild(firstClone);
-carousel.insertBefore(lastClone, cards[0]);
-cards = Array.from(carousel.children);
-currentIndex = 1; // start at first real card
+  let cardWidth = 280 + 32; // width + gap
+  let position = 0;
 
-function updateCarousel() {
-  cards.forEach((card, i) => card.classList.toggle('active', i === currentIndex));
-  const offset = cards[currentIndex].offsetLeft - carousel.parentElement.offsetWidth / 2 + cards[currentIndex].offsetWidth / 2;
-  carousel.style.transform = `translateX(${-offset}px)`;
-}
-
-function nextCard() {
-  currentIndex++;
-  updateCarousel();
-  if (currentIndex === cards.length - 1) { // reached cloned first
-    setTimeout(() => {
-      currentIndex = 1;
-      carousel.style.transition = 'none';
-      updateCarousel();
-      requestAnimationFrame(() => { carousel.style.transition = 'transform 0.5s ease'; });
-    }, 500);
+  function animate() {
+    position += 0.6; // SPEED — adjust as needed
+    if (position >= cards.length/2 * cardWidth) {
+      position = 0; // seamless reset
+    }
+    track.style.transform = `translateX(${-position}px)`;
+    requestAnimationFrame(animate);
   }
-}
 
-function prevCard() {
-  currentIndex--;
-  updateCarousel();
-  if (currentIndex === 0) { // reached cloned last
-    setTimeout(() => {
-      currentIndex = cards.length - 2;
-      carousel.style.transition = 'none';
-      updateCarousel();
-      requestAnimationFrame(() => { carousel.style.transition = 'transform 0.5s ease'; });
-    }, 500);
-  }
-}
+  animate();
 
-function goToService(slug) {
-  window.location.href = `/services/${slug}/`;
-}
+  // BUTTONS
+  document.getElementById("prevBtn").onclick = () => {
+    position -= cardWidth;
+    if (position < 0) position = cards.length/2 * cardWidth;
+  };
 
-// Auto-scroll every 5 seconds
-let autoScroll = setInterval(nextCard, 5000);
+  document.getElementById("nextBtn").onclick = () => {
+    position += cardWidth;
+    if (position >= cards.length/2 * cardWidth)
+      position = 0;
+  };
 
-carousel.addEventListener('mouseenter', () => clearInterval(autoScroll));
-carousel.addEventListener('mouseleave', () => autoScroll = setInterval(nextCard, 5000));
-
-window.onload = updateCarousel;
 </script>
 
 </body>
