@@ -7,108 +7,236 @@
 <title>{{ service.title }}</title>
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #7FB8D3;
-    margin: 0;
-    padding: 0;
-    color: #333;
-  }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #7FB8D3;
+        color: #222;
+    }
 
-  /* Top Navigation (same as before) */
-  .top-nav {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 1.5rem;
-    background: rgba(249, 247, 244, 0.5);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    backdrop-filter: blur(5px);
-    z-index: 1000;
-  }
-  .top-nav a {
-    color: #2C3E50;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  .top-nav a:hover { color: #A3C4DC; }
+    .nav {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 20px;
+        background: rgba(255,255,255,0.5);
+        padding: 10px 20px;
+        border-radius: 10px;
+        backdrop-filter: blur(4px);
+        z-index: 900;
+    }
+    .nav a { 
+        text-decoration: none; 
+        font-weight: bold; 
+        color: #2C3E50; 
+    }
+    .nav a:hover { color: #A3C4DC; }
 
-  /* Content Container */
-  .content-wrapper {
-    margin: 140px auto 40px auto;
-    width: 80%;
-    display: flex;
-    align-items: flex-start;
-    gap: 2rem;
-    flex-wrap: wrap; /* allows text below image on small screens */
-  }
+    .container {
+        max-width: 1200px;
+        margin: 130px auto 40px auto;
+        display: flex;
+        gap: 40px;
+        padding: 10px;
+    }
 
-  /* Image styling */
-  .service-image {
-    width: 15%;
-    min-width: 150px;
-    height: auto;
-    max-height: 25vh; /* 25% vertical space */
-    object-fit: cover;
-    border-radius: 10px;
-    flex-shrink: 0;
-    pointer-events: none; /* prevents clicking/open image */
-  }
+    .left-image {
+        width: 30%;
+    }
+    .left-image img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
 
-  /* Text Section */
-  .service-text {
-    flex: 1;
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  }
+    .content {
+        width: 70%;
+        background: #F9F7F4;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
 
-  .service-text h1 {
-    margin-top: 0;
-  }
+    .content h2 {
+        margin-top: 0;
+        color: #2C3E50;
+    }
 
-  .back-btn {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.6rem 1rem;
-    background-color: #2C3E50;
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-  }
-  .back-btn:hover {
-    background-color: #1a2a3a;
-  }
+    .section {
+        margin-bottom: 25px;
+    }
+
+    ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    /* FAQ ACCORDION */
+    .faq-box {
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 20px;
+    }
+
+    details {
+        background: #E5EEF3;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        padding: 12px;
+        cursor: pointer;
+    }
+
+    details summary {
+        font-weight: bold;
+    }
+
+    details p {
+        margin-top: 10px;
+    }
+
+    /* Chatbot */
+    .chatbot-box {
+        margin-top: 30px;
+        padding: 20px;
+        background: #DCE8EF;
+        border-radius: 12px;
+    }
+
+    .chatbot-box h3 {
+        margin-top: 0;
+        color: #2C3E50;
+    }
+
+    .chat-row {
+        margin-bottom: 12px;
+    }
+
+    .chat-input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #aaa;
+        margin-top: 10px;
+    }
+
+    .chat-send {
+        background: #2C3E50;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 8px;
+        margin-top: 10px;
+        cursor: pointer;
+        border: none;
+        font-weight: bold;
+    }
+
+    .chat-send:hover {
+        background: #1B2935;
+    }
 
 </style>
 </head>
+
 <body>
 
-<nav class="top-nav">
-  <a href="/">Home</a>
-  <a href="/services">Services</a>
-  <a href="/contact">Contact</a>
-</nav>
+<!-- Navigation -->
+<div class="nav">
+    <a href="/">Home</a>
+    <a href="/services/">Services</a>
+    <a href="/contact/">Contact</a>
+</div>
 
-<div class="content-wrapper">
+<!-- Main Container -->
+<div class="container">
 
-  <!-- Left image -->
-  <img src="{% static 'services/images/'|add:service.image %}" 
-       class="service-image"
-       alt="{{ service.title }}">
+    <!-- LEFT IMAGE -->
+    <div class="left-image">
+        <img src="{% static 'services/' %}{{ service.image }}" alt="{{ service.title }}">
+    </div>
 
-  <!-- Text content -->
-  <div class="service-text">
-    <h1>{{ service.title }}</h1>
-    <p>{{ service.description }}</p>
+    <!-- RIGHT CONTENT -->
+    <div class="content">
+        <h2>{{ service.title }}</h2>
 
-    <a href="/services" class="back-btn">← Back to Services</a>
-  </div>
+        <!-- ABOUT -->
+        <div class="section">
+            <h3>About This Service</h3>
+            <p>{{ service.about }}</p>
+        </div>
 
+        <!-- WHO IS IT FOR -->
+        <div class="section">
+            <h3>Who Is This For?</h3>
+            <ul>
+                {% for person in service.who %}
+                    <li>{{ person }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- PROCESS -->
+        <div class="section">
+            <h3>Process Involved</h3>
+            <ul>
+                {% for step in service.process %}
+                    <li>{{ step }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- COMBOS -->
+        <div class="section">
+            <h3>Available Options / Combos</h3>
+            <ul>
+                {% for combo in service.combos %}
+                    <li>{{ combo }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- FAQ ACCORDION -->
+        <h3>Frequently Asked Questions</h3>
+        <div class="faq-box">
+            <details>
+                <summary>Why choose this service?</summary>
+                <p>{{ service.faq.why }}</p>
+            </details>
+
+            <details>
+                <summary>How much does it cost?</summary>
+                <p>{{ service.faq.price }}</p>
+            </details>
+
+            <details>
+                <summary>How long does it take?</summary>
+                <p>{{ service.faq.timeline }}</p>
+            </details>
+
+            <details>
+                <summary>What is the process like?</summary>
+                <p>{{ service.faq.process }}</p>
+            </details>
+        </div>
+
+        <!-- CHATBOT AREA -->
+        <div class="chatbot-box">
+            <h3>Have Questions?</h3>
+            <p>Ask anything about <strong>{{ service.title }}</strong> below.</p>
+
+            <div class="chat-row">
+                <textarea class="chat-input" placeholder="Type your question here..."></textarea>
+            </div>
+
+            <button class="chat-send">Ask</button>
+
+            <p style="margin-top:10px; font-size: 0.9em; color: #444;">
+                (Chatbot responses coming soon.)
+            </p>
+        </div>
+
+    </div>
 </div>
 
 </body>
