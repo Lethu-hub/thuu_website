@@ -153,7 +153,7 @@
 
     <!-- LEFT IMAGE -->
     <div class="left-image">
-        <img src="{% static 'services/' %}{{ service.image }}" alt="{{ service.title }}">
+        <img src="{% static 'services/images/'|add:service.image %}" alt="{{ service.title }}">
     </div>
 
     <!-- RIGHT CONTENT -->

@@ -18,9 +18,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include  # include lets us route to app-level URLs
 
+from django.contrib import admin
+from django.urls import path, include
+
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("", include("home.urls")),          # Home page
-    path("services/", include("services.urls")),  # Services page & detail pages
-    path("contact/", include("contact.urls")),    # Contact page
+    path('admin/', admin.site.urls),
+    path('', include('home.urls')),           # Home page
+    path('services/', include('services.urls')),
+    path('contact/', include('contact.urls')), # Contact page
 ]

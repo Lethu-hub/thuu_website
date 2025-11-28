@@ -4,5 +4,5 @@ from . import views
 app_name = 'contact'
 
 urlpatterns = [
-    path('', views.index, name='index'),  # Contact page
+    path('', views.index, name='index'),
 ]

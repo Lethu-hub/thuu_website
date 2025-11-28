@@ -1,33 +1,142 @@
+{% load static %}
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact | Olwethu Mahlathini</title>
-    <link rel="stylesheet" href="{% static 'contact/css/style.css' %}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Me</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f4f6;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+
+.top-nav {
+position: fixed;
+top: 20px;
+left: 50%;
+transform: translateX(-50%);
+display: flex;
+gap: 1.5rem;
+background: rgba(249, 247, 244, 0.8);
+padding: 0.5rem 1rem;
+border-radius: 8px;
+backdrop-filter: blur(5px);
+z-index: 1000;
+}
+
+.top-nav a {
+color: #2C3E50;
+text-decoration: none;
+font-weight: bold;
+}
+
+.top-nav a:hover { color: #A3C4DC; }
+
+.container {
+max-width: 900px;
+margin: 140px auto 40px auto;
+background: #fff;
+padding: 30px;
+border-radius: 12px;
+box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+text-align: center;
+margin-bottom: 1rem;
+color: #2C3E50;
+}
+
+p {
+margin-bottom: 1rem;
+}
+
+.contact-info {
+margin-bottom: 2rem;
+}
+
+.contact-info div {
+margin-bottom: 10px;
+}
+
+.contact-info a {
+color: #2C3E50;
+text-decoration: none;
+font-weight: bold;
+}
+
+.contact-info a:hover { color: #A3C4DC; }
+
+form {
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+
+input, textarea {
+padding: 12px;
+border-radius: 8px;
+border: 1px solid #ccc;
+font-size: 1rem;
+width: 100%;
+}
+
+button {
+padding: 12px;
+border-radius: 8px;
+border: none;
+background-color: #2C3E50;
+color: #fff;
+font-weight: bold;
+cursor: pointer;
+transition: background 0.3s;
+}
+
+button:hover {
+background-color: #1B2935;
+}
+
+</style>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'data_analyst' %}">Data Analyst</a></li>
-            <li><a href="{% url 'creative' %}">Creative</a></li>
-            <li><a href="{% url 'services' %}">Services</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
-        </ul>
-    </nav>
 
-    <header>
-        <h1>Contact Me</h1>
-        <p>Get in touch via email or social media</p>
-    </header>
+<!-- Navigation -->
 
-    <main>
-        <p>Placeholder for contact form or email/social links.</p>
-    </main>
+<div class="top-nav">
+    <a href="/">Home</a>
+    <a href="/data-analyst/">Data Analyst</a>
+    <a href="/creative/">Creative</a>
+    <a href="/services/">Services</a>
+    <a href="/contact/">Contact</a>
+</div>
 
-    <footer>
-        <p>&copy; 2025 Olwethu Mahlathini</p>
-    </footer>
+<div class="container">
+    <h1>Contact Me</h1>
+    <div class="contact-info">
+        <div>Email: <a href="mailto:mpofu9898@gmail.com">mpofu9898@gmail.com</a></div>
+        <div>WhatsApp: <a href="https://wa.me/26773843390" target="_blank">+267 738 433 90</a></div>
+        <div>Facebook: <a href="https://www.facebook.com/Olwethu.N.Mahlathini" target="_blank">Olwethu N Mahlathini</a></div>
+        <div>LinkedIn: <a href="https://www.linkedin.com/in/Olwethu-N-Mahlathini" target="_blank">Olwethu N Mahlathini</a></div>
+    </div>
+
+```
+<h2>Send me a message</h2>
+<form method="POST" action="">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+</form>
+```
+
+</div>
+
 </body>
 </html>
