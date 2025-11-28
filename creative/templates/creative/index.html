@@ -1,33 +1,190 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creative | Olwethu Mahlathini</title>
-    <link rel="stylesheet" href="{% static 'creative/css/style.css' %}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative & Writer - Olwethu Mahlathini</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f4f6;
+    color: #222;
+  }
+
+  /* Navigation */
+  .top-nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1.5rem;
+    background: rgba(249,247,244,0.8);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+  }
+  .top-nav a {
+    color: #2C3E50;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .top-nav a:hover { color: #A3C4DC; }
+
+  /* YouTube banner */
+  .youtube-banner {
+    width: 100%;
+    max-height: 400px;
+    overflow: hidden;
+  }
+  .youtube-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Channel info */
+  .channel-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #fff;
+    margin-top: -5px;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .channel-info img {
+    width: 98px;
+    height: 98px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #2C3E50;
+  }
+  .channel-info-text h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #2C3E50;
+  }
+  .channel-info-text p {
+    margin: 5px 0 0 0;
+    color: #555;
+  }
+
+  /* Social icons section */
+  .social-section {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 30px 0;
+    background: #fff;
+    margin: 40px auto 0 auto;
+    max-width: 1000px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .social-section a img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    transition: transform 0.5s;
+  }
+  .social-section a img:hover {
+    transform: rotate(20deg) scale(1.1);
+  }
+
+  /* Author section */
+  .author-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .author-section img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #2C3E50;
+  }
+  .author-text h2 {
+    margin: 0;
+    color: #2C3E50;
+  }
+  .author-text p {
+    margin-top: 10px;
+    line-height: 1.6;
+    color: #555;
+  }
+</style>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'data_analyst' %}">Data Analyst</a></li>
-            <li><a href="{% url 'creative' %}">Creative</a></li>
-            <li><a href="{% url 'services' %}">Services</a></li>
-            <li><a href="{% url 'contact' %}">Contact</a></li>
-        </ul>
-    </nav>
 
-    <header>
-        <h1>Creative Work & Writing</h1>
-        <p>Social Content: YouTube, TikTok, Instagram | Published Books & Articles</p>
-    </header>
+<!-- Navigation -->
+<nav class="top-nav">
+  <a href="/">Home</a>
+  <a href="/services/">Services</a>
+  <a href="/contact/">Contact</a>
+  <a href="/data-analyst/">Data Analyst</a>
+  <a href="/creative/">Creative</a>
+</nav>
 
-    <main>
-        <p>Placeholder for your creative content and links to social channels.</p>
-    </main>
+<!-- YouTube Banner -->
+<div class="youtube-banner">
+  <img src="{% static 'creative/BannerImage.jpg' %}" alt="YouTube Banner">
+</div>
 
-    <footer>
-        <p>&copy; 2025 Olwethu Mahlathini</p>
-    </footer>
+<!-- Channel Info -->
+<div class="channel-info">
+  <img src="{% static 'creative/ProfileImage.png' %}" alt="Profile Image">
+  <div class="channel-info-text">
+    <h2>Thuu Real</h2>
+    <p>YouTube Channel: Sharing vlogs, creative content, and personal growth journey.</p>
+    <p><a href="https://www.youtube.com/@thuu_real" target="_blank">Visit my YouTube channel</a></p>
+  </div>
+</div>
+
+<!-- Social Media Section -->
+<div class="social-section">
+  <a href="https://www.facebook.com/thinithuuu" target="_blank">
+    <img src="{% static 'creative/facebook.jpg' %}" alt="Facebook">
+  </a>
+  <a href="https://www.instagram.com/thuu.real" target="_blank">
+    <img src="{% static 'creative/instagram.jpg' %}" alt="Instagram">
+  </a>
+  <a href="https://www.tiktok.com/@thuu_real" target="_blank">
+    <img src="{% static 'creative/tiktok.jpg' %}" alt="TikTok">
+  </a>
+  <a href="https://www.snapchat.com/@thuu_real" target="_blank">
+    <img src="{% static 'creative/snapchat.jpg' %}" alt="Snapchat">
+  </a>
+  <a href="https://www.threads.com/@thuu.real" target="_blank">
+    <img src="{% static 'creative/threads.jpg' %}" alt="Threads">
+  </a>
+</div>
+
+<!-- Author Section -->
+<div class="author-section">
+  <img src="{% static 'creative/ProfileImage.png' %}" alt="Author Image">
+  <div class="author-text">
+    <h2>About the Author</h2>
+    <p>
+      Olwethu Mahlathini is passionate about writing, storytelling, and sharing experiences through multiple creative outlets. 
+      This is where I showcase my love for vlogging, social media content, and my book(s), connecting all my creative expressions in one place.
+    </p>
+  </div>
+</div>
+
 </body>
 </html>

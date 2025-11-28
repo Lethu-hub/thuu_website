@@ -23,7 +23,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('home.urls')),           # Home page
+    path('', include('home.urls')),           # your home page
     path('services/', include('services.urls')),
-    path('contact/', include('contact.urls')), # Contact page
+    path('contact/', include('contact.urls')),
+    path('creative/', include('creative.urls')),  # <-- add this line
 ]
