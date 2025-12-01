@@ -15,4 +15,5 @@ def index(request):
         "social_links": social_links,
     }
 
-    return render(request, "creative/templates/creative/index.html", context)
+    # Correct template path
+    return render(request, "creative/index.html", context)

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "home",
     "services",
     "contact",
+    "creative",
 ]
 
 

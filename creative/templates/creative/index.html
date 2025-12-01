@@ -6,14 +6,46 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Creative & Writer - Olwethu Mahlathini</title>
 <style>
+  /* === Misty Background === */
   body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f2f4f6;
     color: #222;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background: #c2e0ff;
   }
 
-  /* Navigation */
+  body::before, body::after {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.2), transparent 70%);
+    z-index: -2;
+    animation: drift1 60s linear infinite;
+  }
+  body::after {
+    background: radial-gradient(circle at 70% 70%, rgba(255,255,255,0.15), transparent 70%);
+    animation: drift2 80s linear infinite;
+    z-index: -3;
+  }
+
+  @keyframes drift1 {
+    0% { transform: translate(0,0) scale(1.2); }
+    50% { transform: translate(50px, 50px) scale(1.2); }
+    100% { transform: translate(0,0) scale(1.2); }
+  }
+  @keyframes drift2 {
+    0% { transform: translate(0,0) scale(1.3); }
+    50% { transform: translate(-50px, 30px) scale(1.3); }
+    100% { transform: translate(0,0) scale(1.3); }
+  }
+
+  /* === Navigation === */
   .top-nav {
     position: fixed;
     top: 20px;
@@ -34,7 +66,7 @@
   }
   .top-nav a:hover { color: #A3C4DC; }
 
-  /* YouTube banner */
+  /* === YouTube Banner === */
   .youtube-banner {
     width: 100%;
     max-height: 400px;
@@ -46,23 +78,23 @@
     display: block;
   }
 
-  /* Channel info */
+  /* === Channel Info === */
   .channel-info {
     display: flex;
     align-items: center;
     gap: 20px;
     padding: 20px;
-    background: #fff;
+    background: rgba(255,255,255,0.1);
     margin-top: -5px;
     border-radius: 0 0 12px 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
+    backdrop-filter: blur(8px);
   }
   .channel-info img {
-    width: 98px;
-    height: 98px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid #2C3E50;
@@ -74,32 +106,65 @@
   }
   .channel-info-text p {
     margin: 5px 0 0 0;
-    color: #555;
+    color: #222;
   }
 
-  /* Social icons section */
+  /* === Social Media Flip Cards === */
   .social-section {
     display: flex;
     justify-content: center;
     gap: 25px;
     padding: 30px 0;
-    background: #fff;
     margin: 40px auto 0 auto;
     max-width: 1000px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
-  .social-section a img {
+  .social-card {
+    width: 100px;
+    height: 100px;
+    perspective: 1000px;
+  }
+  .social-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  .social-card:hover .social-card-inner {
+    transform: rotateY(180deg);
+  }
+  .social-card-front, .social-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    backface-visibility: hidden;
+  }
+  .social-card-front {
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #2C3E50;
+  }
+  .social-card-front img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    transition: transform 0.5s;
+    object-fit: cover;
   }
-  .social-section a img:hover {
-    transform: rotate(20deg) scale(1.1);
+  .social-card-back {
+    background: #2C3E50;
+    color: white;
+    transform: rotateY(180deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
   }
 
-  /* Author section */
+  /* === Author Section === */
   .author-section {
     display: flex;
     align-items: center;
@@ -107,9 +172,9 @@
     padding: 40px 20px;
     max-width: 1000px;
     margin: 40px auto;
-    background: #fff;
+    background: rgba(255,255,255,0.1);
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    backdrop-filter: blur(8px);
   }
   .author-section img {
     width: 120px;
@@ -125,7 +190,7 @@
   .author-text p {
     margin-top: 10px;
     line-height: 1.6;
-    color: #555;
+    color: #222;
   }
 </style>
 </head>
@@ -142,48 +207,111 @@
 
 <!-- YouTube Banner -->
 <div class="youtube-banner">
-  <img src="{% static 'creative/BannerImage.jpg' %}" alt="YouTube Banner">
+  <img src="{% static 'creative/images/BannerImage.png' %}" alt="YouTube Banner">
 </div>
 
 <!-- Channel Info -->
 <div class="channel-info">
-  <img src="{% static 'creative/ProfileImage.png' %}" alt="Profile Image">
+  <img src="{% static 'creative/images/ProfileImage.jpg' %}" alt="Profile Image">
   <div class="channel-info-text">
-    <h2>Thuu Real</h2>
-    <p>YouTube Channel: Sharing vlogs, creative content, and personal growth journey.</p>
-    <p><a href="https://www.youtube.com/@thuu_real" target="_blank">Visit my YouTube channel</a></p>
+   <h2>Thuu Real</h2>
+    <p>Ouuuuuuu—welcome to my YouTube channel!</p>
+    <p>Owning this space has been a dream for the longest time. I don’t see it as just “content creation”—it’s more like finally giving my big personality a stage to breathe, laugh, and connect.</p>
+    <p>Here, chaos is the niche. Talking too much? Definitely. Random adventures? Absolutely. But underneath it all, it’s about being unapologetically myself and inviting you to do the same.</p>
+
+    <h3>Why Sincerely Thuu?</h3>
+    <p>My life feels worth leaving digital traces—like a diary that always ends with a signature: <em>Sincerely, Thuu.</em></p>
+    <p>At first, the name felt too elegant, almost like a perfume brand. But then I realized it captures exactly what I stand for. My chaos is authentic. My voice is pure. And everything I share is unapologetically me.</p>
+    <p>That’s why I can’t box my content into categories like beauty, podcasts, or travel. Y'all will just have to take whatever, however it comes even if is cooking. It’s not about fitting in—it’s about being real. It’s very me. Very Thuu.</p>
+
+    <h3>Sincerely, Thuu</h3>
+
+    <p><strong>✨ Hey I'm Thuu & Let's be Real:</strong> Like, comment, subscribe, and follow me on my socials below to keep it real. Or dive right in and <a href="https://www.youtube.com/@thuu_real" target="_blank">visit my YouTube channel</a>.</p>
+
   </div>
 </div>
 
-<!-- Social Media Section -->
+<!-- Social Media Flip Cards -->
 <div class="social-section">
-  <a href="https://www.facebook.com/thinithuuu" target="_blank">
-    <img src="{% static 'creative/facebook.jpg' %}" alt="Facebook">
-  </a>
-  <a href="https://www.instagram.com/thuu.real" target="_blank">
-    <img src="{% static 'creative/instagram.jpg' %}" alt="Instagram">
-  </a>
-  <a href="https://www.tiktok.com/@thuu_real" target="_blank">
-    <img src="{% static 'creative/tiktok.jpg' %}" alt="TikTok">
-  </a>
-  <a href="https://www.snapchat.com/@thuu_real" target="_blank">
-    <img src="{% static 'creative/snapchat.jpg' %}" alt="Snapchat">
-  </a>
-  <a href="https://www.threads.com/@thuu.real" target="_blank">
-    <img src="{% static 'creative/threads.jpg' %}" alt="Threads">
-  </a>
+  {% for name, link in social_links.items %}
+    {% if name != 'youtube' %}
+    <a href="{{ link }}" target="_blank" class="social-card">
+      <div class="social-card-inner">
+        <div class="social-card-front">
+          <img src="{% static 'creative/images/'|add:name|add:'.jpg' %}" alt="{{ name|title }}">
+        </div>
+        <div class="social-card-back">{{ name|title }}</div>
+      </div>
+    </a>
+    {% endif %}
+  {% endfor %}
 </div>
 
 <!-- Author Section -->
 <div class="author-section">
-  <img src="{% static 'creative/ProfileImage.png' %}" alt="Author Image">
+  <img src="{% static 'creative/images/ProfileImage.jpg' %}" alt="Author Image">
   <div class="author-text">
     <h2>About the Author</h2>
+    <p>I’ve always loved writing. Back in the day, I used to fill notebooks with stories, and my friends would read them—it was so fun. I haven’t settled on one category yet, and honestly, I’m open to learning as I go. But my first novel-in-progress leans toward thriller: murder, a psychopath, and all the suspense. It’s nowhere near done, so I won’t say much… except y’all better wait for it (and don’t judge me!).</p>
+
+    <p>On November 6th, I published a set of poems via digital drafts. They share pieces of my experience as child number one. Being a firstborn is beautiful, but sometimes people—even my friends—forget that I’m a child too. I thought that was worth sharing.</p>
+
+    <p>I don’t overthink poetry; I just write. I’ve got plenty of pieces tucked away, maybe one day I’ll throw them into a book and call it <em>Different Feelins</em> (just kidding… or maybe not). My style is hybrid: not much rhyming, but full of sarcasm, metaphors, and truth. Honestly, some poems are better heard than read, so you’ll probably catch me performing them on TikTok and Instagram. So you better be following me, okay?</p>
+  </div> <!-- Close author-text -->
+</div> <!-- Close author-section -->
+
+<!-- Favorite Poems Section -->
+<div class="favorite-poems" style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center; margin:40px auto; max-width:1200px;">
+  
+  <!-- Poem 1 -->
+  <div class="poem-container" style="flex:1 1 400px; background: rgba(255,255,255,0.1); padding:20px; border-radius:12px; backdrop-filter: blur(8px); box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+    <h3>An Angry Child</h3>
     <p>
-      Olwethu Mahlathini is passionate about writing, storytelling, and sharing experiences through multiple creative outlets. 
-      This is where I showcase my love for vlogging, social media content, and my book(s), connecting all my creative expressions in one place.
+      A friend once posted my picture for my birthday. Tagged it: “Happy birthday to the most passive aggressive person I know.” I wrote a long paragraph. Deleted it. Sent: “Thank you.”<br><br>
+      But the truth? That haunted me.<br><br>
+      I didn’t see it then,<br>
+      But I was an angry child.<br><br>
+      I snapped often.<br>
+      Crashed out often.<br><br>
+      I didn’t know it.<br>
+      He didn’t know it.<br>
+      But I was a hurt child,<br>
+      who deflected in anger.<br><br>
+      Time and again, I look back.<br>
+      We aren’t different—me and her.<br>
+      My younger self, that is...
     </p>
   </div>
+
+  <!-- Poem 2 -->
+  <div class="poem-container" style="flex:1 1 400px; background: rgba(255,255,255,0.1); padding:20px; border-radius:12px; backdrop-filter: blur(8px); box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+    <h3>The Smile That Betrays Me</h3>
+    <p>
+      “You have a beautiful smile,” they say.<br><br>
+      And your laugh— It’s one I’d like to hear often.<br><br>
+      This isn’t the first time someone’s said it.<br>
+      I’ve heard that my eyes sparkle when I talk to the kids,<br>
+      That I help the elderly with a smile.<br><br>
+      But smiling makes people comfortable.<br>
+      Because if you do it long enough, <br>
+      You master the art of hiding what you really feel.<br><br>
+      And once you’re past that— It betrays you.<br><br>
+      You know how many times<br>
+      I’ve wanted To show my displeasure?<br>
+      To let my face fall like it wants to?<br>
+      But I’ve fake-smiled long enough<br>
+      That whenever someone walks in,<br>
+      My lips curve...
+    </p>
+  </div>
+
+</div>
+
+<!-- Read More Button -->
+<div style="text-align:center; margin-bottom:60px;">
+  <a href="https://books2read.com/u/baJXRq" target="_blank" style="display:inline-block; padding:12px 25px; background:#2C3E50; color:#fff; text-decoration:none; border-radius:10px; font-weight:bold;">Read More</a>
+</div>
+
 </div>
 
 </body>
