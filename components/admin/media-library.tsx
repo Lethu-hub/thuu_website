@@ -1,0 +1,19 @@
+"use client";
+
+import { useRef, useState, useTransition } from "react";
+import { FileUp, LoaderCircle, Trash2 } from "lucide-react";
+
+type Asset = { id: string; url: string; filename: string; mimeType: string; size: number; altText: string };
+
+export function MediaLibrary({ initialAssets, updateAlt, remove }: { initialAssets: Asset[]; updateAlt: (id: string, formData: FormData) => void | Promise<void>; remove: (id: string) => void | Promise<void> }) {
+  const [assets, setAssets] = useState(initialAssets);
+  const [uploading, setUploading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [pending, startTransition] = useTransition();
+  const input = useRef<HTMLInputElement>(null);
+  const upload = async (files: FileList | File[]) => {
+    setUploading(true); setMessage("");
+    try { const created: Asset[] = []; for (const file of Array.from(files)) { const form = new FormData(); form.append("file", file); form.append("altText", file.name.replace(/\.[^.]+$/, "")); const response = await fetch("/api/admin/media", { method: "POST", body: form }); const payload = await response.json(); if (!response.ok) throw new Error(payload.error || "Upload failed"); created.push(payload); } setAssets((current) => [...created, ...current]); setMessage(`${created.length} file${created.length === 1 ? "" : "s"} added to the library.`); } catch (error) { setMessage(error instanceof Error ? error.message : "Upload failed."); } finally { setUploading(false); }
+  };
+  return <><section onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); upload(event.dataTransfer.files); }} className="admin-card border-dashed p-7 text-center"><input ref={input} className="hidden" type="file" multiple accept="image/*,application/pdf" onChange={(event) => event.target.files && upload(event.target.files)} /><FileUp className="mx-auto text-moss" size={25} /><h1 className="mt-3 font-display text-3xl font-bold tracking-[-.04em]">Media library</h1><p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-[#69766d]">Drop images or CV PDFs here. Once uploaded, they can be reused throughout projects and your CV.</p><button type="button" className="admin-button mt-5" onClick={() => input.current?.click()}>{uploading ? <LoaderCircle className="animate-spin" size={15} /> : <FileUp size={15} />}{uploading ? "Uploading" : "Choose files"}</button>{message && <p className="mt-3 text-sm font-semibold text-moss">{message}</p>}</section><section className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{assets.map((asset) => <article className="admin-card overflow-hidden" key={asset.id}>{asset.mimeType.startsWith("image/") ? <img src={asset.url} alt={asset.altText || asset.filename} className="aspect-[16/10] w-full bg-[#eef3ed] object-cover" /> : <div className="grid aspect-[16/10] place-items-center bg-[#eef3ed] font-display text-3xl font-bold text-moss">PDF</div>}<div className="p-4"><p className="truncate text-sm font-bold">{asset.filename}</p><p className="mt-1 text-xs text-[#748077]">{Math.max(1, Math.round(asset.size / 1024))} KB</p><form action={(form) => startTransition(() => updateAlt(asset.id, form))} className="mt-4"><label className="admin-label">Alt text</label><div className="flex gap-2"><input className="admin-input" name="altText" defaultValue={asset.altText} placeholder="Describe this image" /><button disabled={pending} className="admin-button-secondary">Save</button></div></form><button type="button" onClick={() => startTransition(() => { remove(asset.id); setAssets((current) => current.filter((item) => item.id !== asset.id)); })} className="admin-button-danger mt-3"><Trash2 size={14} />Delete file</button></div></article>)}{!assets.length && <p className="col-span-full py-12 text-center text-sm text-[#718076]">There are no uploaded files yet.</p>}</section></>;
+}

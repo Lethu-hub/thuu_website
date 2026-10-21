@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1792363392320,
+      "tag": "0000_gray_northstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792583451129,
+      "tag": "0001_ancient_wolfsbane",
+      "breakpoints": true
+    }
+  ]
+}
