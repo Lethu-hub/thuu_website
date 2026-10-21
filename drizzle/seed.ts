@@ -1,10 +1,8 @@
 import { config } from "dotenv";
 config({ path: ".env.local" });
 import { db } from "../lib/db";
-import { cvProfiles, projects, siteSettings } from "../lib/db/schema";
+import { cvProfiles, siteSettings } from "../lib/db/schema";
 import { DEFAULT_LABELS, DEFAULT_VISIBILITY } from "../lib/types";
-
-const projectId = "project_healthcare_warehousing";
 
 async function seed() {
   const database = db();
@@ -51,32 +49,7 @@ async function seed() {
     })
     .onConflictDoNothing();
 
-  await database
-    .insert(projects)
-    .values({
-      id: projectId,
-      title: "Healthcare Warehousing Analytics",
-      slug: "healthcare-warehousing-analytics",
-      summary: "A case-study framework for making inventory, fulfilment, and service-level decisions visible.",
-      domainTags: ["Healthcare", "Operations"],
-      toolTags: ["SQL", "Power BI", "Python"],
-      status: "draft",
-      featured: "false",
-      projectDate: "2026-10-18",
-      heroMediaId: null,
-      links: [],
-      blocks: [
-        { id: "block_problem", type: "markdown", markdown: "## The problem\n\nDescribe the operational question, who needed an answer, and why it mattered." },
-        { id: "block_data", type: "markdown", markdown: "## The data\n\nOutline the source systems, grain, quality checks, and any sensitive-data considerations." },
-        { id: "block_approach", type: "markdown", markdown: "## The approach\n\nExplain the logic, metrics, modelling choices, and dashboard design decisions." },
-        { id: "block_insights", type: "markdown", markdown: "## Insights\n\nShare the patterns that changed the conversation. Add screenshots, charts, or a walkthrough video below." },
-        { id: "block_impact", type: "markdown", markdown: "## Business impact\n\nConnect the work to decisions, outcomes, adoption, or the next best action." }
-      ],
-      sortOrder: 0,
-    })
-    .onConflictDoNothing();
-
-  console.log("Seeded editable site settings, CV profile, and draft healthcare project.");
+  console.log("Seeded editable site settings and CV profile. Add your own projects from Admin → Projects.");
 }
 
 seed().catch((error) => {

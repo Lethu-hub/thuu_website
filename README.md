@@ -34,7 +34,7 @@ A long-lived, editable portfolio and publishing platform built with **Next.js Ap
 
 4. Open `http://localhost:3000/login`, sign in with `ADMIN_USERNAME` and `ADMIN_PASSWORD`, and use the content studio.
 
-The seed creates editable placeholder profile content and a **draft** “Healthcare Warehousing Analytics” case-study skeleton. Update Settings first, then edit that project, upload screenshots, add a video URL, and publish it.
+The seed creates editable placeholder profile and CV content only. It intentionally creates no projects or notes, so you can add your own work from Admin → Projects.
 
 ## Environment variables
 
