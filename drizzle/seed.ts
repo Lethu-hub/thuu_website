@@ -52,7 +52,11 @@ async function seed() {
   console.log("Seeded editable site settings and CV profile. Add your own projects from Admin → Projects.");
 }
 
-seed().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+// postgres keeps its pool alive after the last query. This script is run during
+// the Vercel build, so explicitly finishing lets the build continue to Next.js.
+seed()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
