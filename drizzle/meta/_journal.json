@@ -15,6 +15,13 @@
       "when": 1792583451129,
       "tag": "0001_ancient_wolfsbane",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792587141545,
+      "tag": "0002_remove_seed_healthcare_project",
+      "breakpoints": true
     }
   ]
 }
