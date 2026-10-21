@@ -58,8 +58,10 @@ The seed creates editable placeholder profile and CV content only. It intentiona
    ```
 
    For tracked SQL migrations instead, run `npm run db:generate`, commit the generated `drizzle/` migration, then run `npm run db:migrate` against production.
+
+   Database setup is intentionally separate from the Vercel build, so routine content/code deployments stay fast and never wait on a database connection.
 3. In Vercel, set the other environment variables from the table. No Blob account, storage token, or second file provider is needed for Phase 1.
-4. Import the repository in Vercel. The build command is `npm run build`; the output is detected automatically. Set `NEXT_PUBLIC_SITE_URL=https://preferred-name.vercel.app`.
+4. Import the repository in Vercel. Vercel detects Next.js and runs `npm run build`; it does not run database work on every deployment. Set `NEXT_PUBLIC_SITE_URL=https://preferred-name.vercel.app`.
 5. Visit `/login`, publish your first project, and check `/sitemap.xml`.
 
 > Images and CV PDFs are saved to PostgreSQL in Phase 1. If the media library grows substantially, replace `lib/storage/database.ts` with an S3-compatible provider.
